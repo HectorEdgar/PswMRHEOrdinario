@@ -17,7 +17,7 @@ public class Conexion {
 	private static synchronized Connection getConexion() {
 		Connection cn = null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			cn = DriverManager.getConnection(url, user, password);
 		} catch (Exception e) {
 			cn = null;
@@ -27,15 +27,13 @@ public class Conexion {
 	}
 
 	public static synchronized Object ejecutarConsulta(String consulta) {
-		Connection cn = null;
+		Connection cn = getConexion();
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			cn = getConexion();
+			
 			stmt = cn.createStatement();
 			rs = stmt.executeQuery(consulta);
-			cerrarStatement(stmt);
-			cerrarConexion(cn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			cerrarStatement(stmt);

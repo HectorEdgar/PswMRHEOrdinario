@@ -105,14 +105,14 @@
 					href="<%=request.getContextPath() + "/vista/inicio.jsp?activo=inicio"%>">Inicio</a>
 				</li>
 				<li class="<%=parametro.equals("contacto") ? "active" : ""%>"><a
-					href="<%=request.getContextPath() +"/vista/contacto.jsp?activo=contacto"%>">Contacto</a></li>
+					href="<%=request.getContextPath() + "/vista/contacto.jsp?activo=contacto"%>">Contacto</a></li>
 				<li class="<%=parametro.equals("galeria") ? "active" : ""%>"><a
 					href="<%=request.getContextPath() + "/vista/galeria.jsp?activo=galeria"%>">Galeria</a>
 				</li>
 				<li
 					class="<%=parametro.equals("serviciosProductos") ? "active" : ""%>">
 					<a
-					href="<%=request.getContextPath()+"/vista/serviciosProductos.jsp?activo=serviciosProductos"%>">Servicios
+					href="<%=request.getContextPath() + "/vista/serviciosProductos.jsp?activo=serviciosProductos"%>">Servicios
 						y productos</a>
 				</li>
 				<li class="<%=parametro.equals("listaContactos") ? "active" : ""%>">
@@ -121,9 +121,8 @@
 						de contactos</a>
 				</li>
 				<%
-					modelo.CuentaBean bean = (modelo.CuentaBean) session.getAttribute("cuentaBean");
-					if (bean != null) {
-						if (!bean.getPassword().equals("") && !bean.getUsuario().equals("")) {
+					modelo.CuentaModelo cuenta = (modelo.CuentaModelo) session.getAttribute("cuenta");
+					if (cuenta != null) {
 				%>
 				<li class="<%=parametro.equals("cerrarSesion") ? "active" : ""%>">
 					<a
@@ -132,19 +131,16 @@
 				</li>
 				<%
 					}
-					}
 				%>
 			</ul>
 
 
 		</div>
 		<%
-			if (bean != null) {
-				if (!bean.getPassword().equals("") && !bean.getUsuario().equals("")) {
+			if (cuenta != null) {
+				out.println("" + "<h3 class='muted' >Bienvenido: " + "<FONT COLOR='red'>" + cuenta.getUsuario()
+						+ "</font></h3>");
 
-					out.println("" + "<h3 class='muted' >Bienvenido: " + "<FONT COLOR='red'>" + bean.getUsuario()
-							+ "</font></h3>");
-				}
 			}
 		%>
 	</div>

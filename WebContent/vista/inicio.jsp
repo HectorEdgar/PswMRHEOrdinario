@@ -7,17 +7,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inicio</title>
-<%@ include file="../jsp/librerias.jsp"%>
+<jsp:include page="../utilerias/librerias.jsp"></jsp:include>
 </head>
 <body>
+<%
+		if(request.getSession().getAttribute("cuenta")==null){
+			response.sendRedirect(request.getContextPath()+"/vista/inicioSesion.jsp");
+			System.out.println("cerrando sesion");
+		}else{
+		%>
 	<div class="container">
-		<jsp:useBean id="cuentaBean" class="modelo.CuentaBean" scope="session" />
+		
 		<jsp:include page="encabezado.jsp">
 			<jsp:param value="inicio" name="activo" />
 		</jsp:include>
-		<%
-			ControladorCuenta.verificarCuenta(response, session);
-		%>
+		
 		<div class="clearfix"></div>
 		<div class="clearfix"></div>
 		<div class="col-md-6">
@@ -50,6 +54,6 @@
 		</div>
 	</div>
 
-
+<%} %>
 </body>
 </html>

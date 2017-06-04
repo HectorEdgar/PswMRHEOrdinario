@@ -1,3 +1,5 @@
+
+drop database if exists restaurantis6a;
 drop table IF EXISTS ArticuloEnVenta;
 drop table IF EXISTS Carrito;
 drop table IF EXISTS Contacto;
@@ -6,7 +8,8 @@ drop table IF EXISTS Galeria;
 drop table IF EXISTS Comentario;
 drop table IF EXISTS Cuenta;
 
-
+create database restaurantis6a;
+use restaurantis6a;
 Create table Cuenta (
 	idCuenta Int NOT NULL AUTO_INCREMENT,
 	usuario Varchar(100) NOT NULL,
@@ -64,3 +67,24 @@ Alter table Carrito add Foreign Key (idCuenta) references Cuenta (idCuenta) on d
 Alter table Articulo add Foreign Key (idGaleria) references Galeria (idGaleria) on delete  restrict on update  restrict;
 Alter table Carrito add Foreign Key (idArticulo) references Articulo (idArticulo) on delete  restrict on update  restrict;
 Alter table ArticuloEnVenta add Foreign Key (idArticulo) references Articulo (idArticulo) on delete  restrict on update  restrict;
+
+INSERT INTO `restaurantis6a`.`cuenta`
+(`idCuenta`,
+`usuario`,
+`clave`,
+`rol`,
+`nombre`,
+`apellidoPaterno`,
+`apellidoMaterno`,
+`email`)
+VALUES
+(0,
+'root',
+'admin',
+'administrador',
+'root',
+'root',
+'root',
+'root@gmail.com');
+
+

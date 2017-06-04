@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Iniciar Sesión</title>
 <%-- <%@ include "librerias.jsp"%> --%>
 <jsp:include page="../utilerias/librerias.jsp"></jsp:include>
@@ -12,25 +12,21 @@
 
 	<div class="container">
 		<%
-			modelo.CuentaBean bean = (modelo.CuentaBean) session.getAttribute("cuentaBean");
-			if (bean != null) {
-				if (!bean.getPassword().equals("") && !bean.getUsuario().equals("")) {
-					bean.cerrarSesion();
-					session.removeAttribute("cuentaBean");
+			HttpSession ses = request.getSession();
+			ses.removeAttribute("cuenta");
+			ses.invalidate();
 
-				}
-			}
+			response.setContentType("text/html");
+			response.setHeader("Cache-Control", "no-cache, no-store,must-revalidate");
+			response.setHeader("Pragma", "no-cache");
+			response.setDateHeader("Expires", 0);
 		%>
-		<%@page import="psw.ControladorCuenta"%>
 		<jsp:include page="encabezado.jsp">
 			<jsp:param value="inicio" name="activo" />
 		</jsp:include>
 		<!-- 		<div class="clearfix">&nbsp</div> -->
 		<!-- 		<div class="clearfix">&nbsp</div> -->
 		<!-- 		<div class="clearfix">&nbsp</div> -->
-
-		<jsp:useBean id="cuentaBean" class="modelo.CuentaBean" scope="session" />
-
 
 		<div id="loginbox" style="margin-top: 50px;"
 			class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
@@ -44,10 +40,12 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<div style="display: none" id="login-alert"
-						class="alert alert-danger col-sm-12"></div>
+					<div style="display: <%=request.getParameter("mensaje")!=null?"inline":"none" %>;" id="login-alert"
+						class="alert alert-danger col-sm-12">
+						<%=request.getParameter("mensaje")%>
+						</div>
 					<form
-						action="<%=request.getContextPath() + "/vista/inicioSesion.jsp"%>"
+						action="<%=request.getContextPath() + "/CuentaControlador"%>"
 						class="form-horizontal">
 
 						<div style="margin-bottom: 25px" class="input-group">
@@ -59,7 +57,7 @@
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-lock"></i></span> <input type="password"
-								class="form-control" id="password" name="password"
+								class="form-control" id="clave" name="clave"
 								placeholder="******">
 						</div>
 
@@ -74,35 +72,13 @@
 					</form>
 					<div class="col-md-12 footer">
 						<br> ¿Aun no tienes una cuenta? <a class=""
-							href="<%=request.getContextPath()+"/registrarUsuario"%>">Registrate</a>
+							href="<%=request.getContextPath() + "/registrarUsuario.jsp"%>">Registrate</a>
 
 					</div>
 
 				</div>
 			</div>
 		</div>
-</div>
-		<%
-			String usuario = (request.getParameter("usuario")) != null ? request.getParameter("usuario") : "";
-			String password = (request.getParameter("password")) != null ? request.getParameter("password") : "";
-
-			if (!usuario.equals("") && !password.equals("")) {
-				if (usuario.equals("root") && password.equals("root")) {
-		%>
-
-		<jsp:setProperty property="usuario" name="cuentaBean"
-			value="<%=usuario%>" />
-		<jsp:setProperty property="password" name="cuentaBean"
-			value="<%=password%>" />
-
-
-		<jsp:forward page="inicio.jsp">
-			<jsp:param value="inicio" name="activo" />
-		</jsp:forward>
-		<%
-			}
-			}
-		%>
-	
+	</div>
 </body>
 </html>

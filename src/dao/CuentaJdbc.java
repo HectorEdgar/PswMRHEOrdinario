@@ -16,9 +16,10 @@ public class CuentaJdbc {
 	}
 	public static synchronized CuentaModelo seleccionarCuenta(String usuario,String clave){
 		String query="select * from Cuenta where "
-				+ "usuario=´"+clave+"´"
+				+ "usuario='"+usuario+"' && "
 						+ "clave='"+clave+"';";
-		return crearCuentasObject(Conexion.ejecutarConsulta(query)).get(0);
+		ArrayList<CuentaModelo> cuentas = crearCuentasObject(Conexion.ejecutarConsulta(query));
+		return cuentas.size()>0?cuentas.get(0):null;
 	}
 	
 	public static synchronized int insertarCuenta(CuentaModelo cuenta){
@@ -76,7 +77,7 @@ public class CuentaJdbc {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally{
-			Conexion.cerrarResultSet(rs);
+			Conexion.cerrarResultSet(rs);	
 		}
 		return cuentas;
 	}
